@@ -1,4 +1,3 @@
-### CRIAR usuário
 POST http://localhost:3002/users
 Content-Type: application/json
 
@@ -10,18 +9,18 @@ Content-Type: application/json
 ###
 
 
-### LISTAR todos
+### lista todos
 GET http://localhost:3002/users
 ###
 
 
 
-### BUSCAR por ID
+### Bbusca usuários por ID
 GET http://localhost:3002/users/4f145edc-8089-494a-a757-11fa5ad03b01
 ###
 
 
-### ATUALIZAR (PUT)
+### atualizar totalmente
 PUT http://localhost:3002/users/4f145edc-8089-494a-a757-11fa5ad03b01
 Content-Type: application/json
 
@@ -33,7 +32,7 @@ Content-Type: application/json
 ###
 
 
-### ATUALIZAR parcialmente (PATCH)
+### atualizar parcialmente 
 PATCH http://localhost:3002/users/b9a667b2-24c1-46ec-8939-e5149565f559
 Content-Type: application/json
 
@@ -44,5 +43,5 @@ Content-Type: application/json
 ###
 
 
-### DELETAR
+### deleta
 DELETE http://localhost:3002/users/4f145edc-8089-494a-a757-11fa5ad03b01
