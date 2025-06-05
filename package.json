@@ -5,18 +5,34 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "json-server --watch db.json --port 3001",
+    "start": "node server.js",
     "dev": "node --watch --no-warnings server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@fastify/cors": "^11.0.1",
+    "@fastify/cors": "^11.0 .1",
     "@neondatabase/serverless": "^1.0.0",
-    "dotenv": "^16.5.0",
+    "backend": "file:",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
     "fastify": "^5.3.3",
-    "json-server": "^1.0.0-beta.3"
+    "json-server": "1.0.0-beta.3",
+    "node": "^22.16.0",
+    "postgres": "^3.4.7"
   },
+  "devDependencies": {
+    "dotenv": "^16.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samiraPistore/frontend_projeto_React.git"
+  },
+  "bugs": {
+    "url": "https://github.com/samiraPistore/frontend_projeto_React/issues"
+  },
+  "homepage": "https://github.com/samiraPistore/frontend_projeto_React#readme",
   "description": ""
 }

@@ -1,114 +1,44 @@
-import fastify from "fastify" // Importa o Fastify
-import { DatabasePostgres } from "./databasePostgres.js"  // Importa o PostGress
-import cors from "@fastify/cors" // cors 
+import express from "express" // Importa o Fastify
+import { DatabasePostgres } from "./databasePostgres.js" // Importa o PostGress
+import cors from "cors" // cors 
+import './createTable.js';
 
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-// Cria uma instância do servidor Fastify
-const server = fastify();
-
-
-//const database = new DatabaseMemory()
-
-//métodos HTTP
-await server.register(cors, {
-    origin: '*',
-    methods:['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-})
-
-
-// Cria uma instância do banco de dados PostgreSQL
 const database = new DatabasePostgres();
 
+//GET /users
+app.get('/users', async(req, res) =>{
+    const users = await database.list();
+    res.json(users);
+});
 
-//request pega informções do user
-server.post('/users', async (request, reply) => {
-    const { name, email} = request.body
+//POST /users
 
+app.post('/users', async(req, res) =>{
+    const user = req.body;
+    await database.create(user);
+    res.status(201).send();
+});
 
-    await database.create({
-        name,
-        email,
-    })
+//PUT /users/:id
 
+app.put('/users/:id', async(req, res) =>{
+    const id = req.params.id;
+    const user = req.body;
+    await database.update(id, user);
+    res.status(204).send();
+});
 
-    return reply.status(201).send()
-})
+//DELETE /users/:id
+app.delete('/users/:id', async(req, res) => {
+    const id = req.params.id;
+    await database.delete(id);
+    res.status(204).send();
+});
 
-
-//Rota Get
-server.get('/users', async (request) => {
-    const search = request.query.search
-
-
-    const users = await database.list(search)
-
-
-    return users
-})
-
-//Rota Get pelo id
-server.get('/users/:id', async (request) => {
-    const userId = request.params.id
-
-
-    const user = await database.getById(userId)
-
-
-    return user
-})
-
-
-//Rota para editar pelo id
-server.put('/users/:id', async (request, reply) => {
-    const userId = request.params.id
-    const { name, email} = request.body
-
-
-    await database.update(userId, {
-        name,
-        email,
-    })
-
-
-    return reply.status(204).send() //resposta teve sucesso mas não retorna um conteúdo
-})
-
-//Rota editar parcialmente
-server.patch('/users/:id', async (request, reply) => {
-    const userId = request.params.id
-    const { name, email } = request.body
-
-
-    const existingUser = await database.getById(userId)
-
-
-    if (!existingUser) {
-        return reply.status(404).send({ error: 'Usuário não encontrado' })
-    }
-
-
-    await database.update(userId, {
-        name: name ?? existingUser.name,
-        email: email ?? existingUser.email
-    })
-
-
-    return reply.status(204).send()
-})
-
-
-//Rota para deletar 
-server.delete('/users/:id', async (request, reply) => {
-    const userId = request.params.id
-
-
-   await database.delete(userId)
-
-
-    return reply.status(204).send()
-})
-
-
-server.listen({
-    port: process.env.PORT ?? 3002,
-})
+app.listen(3001, () => {
+    console.log('Servidor rodando na porta 3001');
+});
